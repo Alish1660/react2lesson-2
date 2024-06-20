@@ -1,6 +1,18 @@
 {
   "users": [
     {
+      "id": "1",
+      "name": "Juliet Oma",
+      "email": "julie@yahoo.com",
+      "number": "08100000000"
+    },
+    {
+      "id": "2",
+      "name": "James Williams",
+      "email": "jameswilly@gmail.com",
+      "number": "08111111111"
+    },
+    {
       "id": "3",
       "name": "Ahmed Ali",
       "email": "ahmedali012@gmail.com",
@@ -13,10 +25,10 @@
       "number": "09033333333"
     },
     {
-      "id": "64b8",
+      "id": null,
       "name": "Hikmatillo",
       "email": "mrhikmatillosaidturayev@gmail.com",
-      "number": "1214235235"
+      "number": "1426347"
     }
   ]
 }

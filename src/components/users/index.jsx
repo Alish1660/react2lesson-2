@@ -8,12 +8,21 @@ const Index = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/users").then((res) => {
-      if (res.status === 200) {
-        setUsers(res.data);
-      }
-    });
+    fetchUsers();
   }, []);
+
+  const fetchUsers = () => {
+    axios
+      .get("http://localhost:8000/users")
+      .then((res) => {
+        if (res.status === 200) {
+          setUsers(res.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  };
 
   const toggle = () => {
     setModal(!modal);
@@ -26,11 +35,16 @@ const Index = () => {
   };
 
   const handleDelete = (userId) => {
-    axios.delete(`http://localhost:8000/users/${userId}`).then((res) => {
-      if (res.status === 200) {
-        setUsers(users.filter((user) => user.id !== userId));
-      }
-    });
+    axios
+      .delete(`http://localhost:8000/users/${userId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          setUsers(users.filter((user) => user.id !== userId));
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+      });
   };
 
   const handleSaveUser = (updatedUser) => {
@@ -43,16 +57,25 @@ const Index = () => {
               user.id === updatedUser.id ? updatedUser : user
             );
             setUsers(updatedUsers);
+            setModal(false);
           }
+        })
+        .catch((error) => {
+          console.error("Error updating user:", error);
         });
     } else {
-      axios.post(`http://localhost:8000/users`, updatedUser).then((res) => {
-        if (res.status === 201) {
-          setUsers([...users, res.data]);
-        }
-      });
+      axios
+        .post(`http://localhost:8000/users`, updatedUser)
+        .then((res) => {
+          if (res.status === 201) {
+            setUsers([...users, res.data]);
+            setModal(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding user:", error);
+        });
     }
-    setModal(false);
   };
 
   return (
@@ -64,11 +87,11 @@ const Index = () => {
         onSave={handleSaveUser}
       />
       <div className="container">
-        <h1 className="text-center my-3"> Users</h1>
-        <button className="btn btn-success my-3" onClick={() => toggle()}>
+        <h1 className="text-center my-3">Users</h1>
+        <button className="btn btn-success my-3" onClick={toggle}>
           Add User
         </button>
-        <table className="table table-bordered table-striped table-hover ">
+        <table className="table table-bordered table-striped table-hover">
           <thead>
             <tr>
               <th>T/R</th>
@@ -80,7 +103,7 @@ const Index = () => {
           </thead>
           <tbody>
             {users.map((item, index) => (
-              <tr key={index}>
+              <tr key={item.id}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>

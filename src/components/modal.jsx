@@ -11,9 +11,15 @@ const UserModal = ({ open, toggle, user, onSave }) => {
   useEffect(() => {
     if (user) {
       setForm({
-        name: user.name,
-        email: user.email,
-        number: user.number,
+        name: user.name || "",
+        email: user.email || "",
+        number: user.number || "",
+      });
+    } else {
+      setForm({
+        name: "",
+        email: "",
+        number: "",
       });
     }
   }, [user]);
@@ -83,7 +89,7 @@ const UserModal = ({ open, toggle, user, onSave }) => {
             Cancel
           </Button>
           <Button color="primary" type="submit">
-            {user ? "Save " : "Add User"}
+            {user ? "Save" : "Add User"}
           </Button>
         </ModalFooter>
       </form>
